@@ -32,6 +32,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
+from sqlbench.env import load_dotenv  # noqa: E402
 from sqlbench.execution import connect, execute  # noqa: E402
 from sqlbench.llm import make_backend  # noqa: E402
 from sqlbench.pricing import request_cost  # noqa: E402
@@ -218,6 +219,7 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=DATA_DIR / "generated")
     ap.add_argument("--resume", action="store_true", help="reuse accepted pairs from <out>/accepted.jsonl")
     args = ap.parse_args()
+    load_dotenv()
 
     kwargs = {"effort": args.effort} if args.backend.startswith("anthropic:") else {}
     backend = make_backend(args.backend, **kwargs)

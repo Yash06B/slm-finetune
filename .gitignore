@@ -15,3 +15,6 @@ serve/gguf/
 # local smoke tests
 data/generated/sample/
 results/smoke*/
+
+# secrets
+.env

@@ -33,6 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+from sqlbench.env import load_dotenv  # noqa: E402
 from sqlbench.execution import connect, execute, results_match  # noqa: E402
 from sqlbench.llm import make_backend  # noqa: E402
 from sqlbench.pricing import request_cost  # noqa: E402
@@ -91,6 +92,7 @@ def main():
     ap.add_argument("--hardware", default=None, help="free-text hardware note for the table, e.g. 'Colab T4'")
     ap.add_argument("--no-warmup", action="store_true")
     args = ap.parse_args()
+    load_dotenv()
 
     test_path = TEST_SETS.get(args.test_set, Path(args.test_set))
     examples = [json.loads(line) for line in test_path.read_text(encoding="utf-8").splitlines() if line.strip()]
