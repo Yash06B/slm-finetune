@@ -93,7 +93,7 @@ sees exactly what it was trained on.
 | LoRA rank / alpha / dropout | 16 / 32 / 0 | Standard starting point; the task is narrow |
 | Learning rate, schedule | 2e-4, cosine, 3% warmup | Usual LoRA range |
 | Effective batch | 16 (4 × 4 grad. accumulation) | |
-| Epochs | 2 | Watch `eval_loss` in `train_log.csv`; synthetic data overfits fast |
+| Epochs | 3 for the current 340-pair set, 2 for ~3k pairs | Watch `eval_loss` in `train_log.csv`; synthetic data overfits fast |
 | Max sequence length | 2048 | Schema prompt is ~650 tokens, answers are short |
 | Loss | Assistant tokens only (`train_on_responses_only`) | Don't spend capacity re-learning the fixed schema prompt |
 | Optimizer | AdamW 8-bit, weight decay 0.01 | |

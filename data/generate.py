@@ -297,10 +297,13 @@ def main() -> None:
     write_jsonl(args.out / "val.jsonl", [{**training_example(x["question"], x["sql"]), **x} for x in val])
     write_jsonl(args.out / "test_synth.jsonl", test)
 
+    # Proposal counts come from the raw log so they cover every run, including resumed ones.
+    statuses = Counter(r.get("status") for r in load_jsonl(raw_path))
+    proposed = sum(statuses.values())
     summary = {
-        "teacher": backend.name, **stats, "accepted": len(pool.items),
-        "acceptance_rate": round(len(pool.items) / max(1, stats["proposed"]), 3),
-        "reject_reasons": dict(pool.rejects), "train": len(train), "val": len(val), "test_synth": len(test),
+        "teacher": backend.name, "this_run": stats, "proposed": proposed, "accepted": len(pool.items),
+        "acceptance_rate": round(len(pool.items) / max(1, proposed), 3),
+        "status_counts": dict(statuses.most_common()), "train": len(train), "val": len(val), "test_synth": len(test),
         "dropped_for_test_overlap": dropped,
         "difficulty": dict(Counter(x["difficulty"] for x in pool.items)),
     }

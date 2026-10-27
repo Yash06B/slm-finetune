@@ -1,0 +1,33 @@
+{
+  "teacher": "ollama:qwen2.5-coder:7b",
+  "this_run": {
+    "calls": 0,
+    "failed_calls": 0,
+    "proposed": 0,
+    "cost_usd": 0.0,
+    "in_tok": 0,
+    "out_tok": 0
+  },
+  "proposed": 679,
+  "accepted": 403,
+  "acceptance_rate": 0.594,
+  "status_counts": {
+    "accepted": 403,
+    "sql_error": 149,
+    "empty_result": 74,
+    "relative_date": 16,
+    "overlaps_gold_test": 12,
+    "near_duplicate_question": 11,
+    "null_result": 7,
+    "duplicate_sql": 7
+  },
+  "train": 340,
+  "val": 20,
+  "test_synth": 33,
+  "dropped_for_test_overlap": 10,
+  "difficulty": {
+    "medium": 185,
+    "easy": 72,
+    "hard": 146
+  }
+}

@@ -145,7 +145,10 @@ class HFBackend(Backend):
 
     def chat(self, messages, max_tokens=512):
         torch = self.torch
-        ids = self.tok.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt").to(self.model.device)
+        ids = self.tok.apply_chat_template(messages, add_generation_prompt=True, return_tensors="pt")
+        if not torch.is_tensor(ids):  # newer transformers return a BatchEncoding
+            ids = ids["input_ids"]
+        ids = ids.to(self.model.device)
         if torch.cuda.is_available():
             torch.cuda.synchronize()
         t0 = time.perf_counter()
