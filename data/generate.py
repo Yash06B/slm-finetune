@@ -81,11 +81,12 @@ Rules for every pair:
 - Select only the columns the question asks for, in a natural order. No SELECT *.
 - Use explicit dates or years ("in 2024", "since 2025-03-01"). Never say "last month", "this year", "recently" or "today".
 - If the question asks for a top-N or "the most", it must not depend on how ties are broken; add a tie-breaker to the question and SQL (e.g. "then by name") if needed.
-- Only use values that exist in the schema notes (statuses, tiers, methods, the category and brand names you are given).
+- Only use values that exist in the schema notes (statuses, tiers, methods) and the category, brand, country and city names listed below.
 - Vary the wording; do not start every question the same way.
 
 Category names: {categories}
 Brand names: {brands}
+Countries and cities: {places}
 
 Reply with a JSON array only, no prose: [{{"question": "...", "sql": "...", "difficulty": "easy|medium|hard"}}, ...]"""
 
@@ -160,6 +161,8 @@ class Pool:
             return "sql_error"
         if not res.rows:
             return "empty_result"
+        if all(v is None for row in res.rows for v in row):
+            return "null_result"  # e.g. SUM over no rows: a filter value that does not exist
         if res.truncated:
             return "too_many_rows"
         k, toks = sql_key(sql), tokens(q)
@@ -238,7 +241,9 @@ def main() -> None:
 
     categories = ", ".join(r[0] for r in con.execute("SELECT name FROM categories ORDER BY category_id"))
     brands = ", ".join(r[0] for r in con.execute("SELECT DISTINCT brand FROM products ORDER BY brand"))
-    system = GEN_SYSTEM.format(schema=schema_prompt(), categories=categories, brands=brands)
+    places = "; ".join(f"{c}: {cities}" for c, cities in con.execute(
+        "SELECT country, GROUP_CONCAT(DISTINCT city) FROM customers GROUP BY country ORDER BY country"))
+    system = GEN_SYSTEM.format(schema=schema_prompt(), categories=categories, brands=brands, places=places)
     rng = random.Random(args.seed)
     max_calls = args.max_calls or max(3, 3 * (args.target - len(pool.items)) // args.batch + 1)
 
