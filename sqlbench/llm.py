@@ -44,19 +44,19 @@ def _post_json(url: str, payload: dict, headers: dict | None = None, timeout: fl
 
 
 class OllamaBackend(Backend):
-    def __init__(self, model: str, host: str | None = None, num_ctx: int = 4096):
+    def __init__(self, model: str, host: str | None = None, num_ctx: int = 4096, temperature: float = 0.0):
         self.model, self.name = model, f"ollama:{model}"
         self.host = (host or os.environ.get("OLLAMA_HOST", "http://localhost:11434")).rstrip("/")
         if not self.host.startswith("http"):
             self.host = "http://" + self.host
-        self.num_ctx = num_ctx
+        self.num_ctx, self.temperature = num_ctx, temperature
 
     def chat(self, messages, max_tokens=512):
         t0 = time.perf_counter()
         try:
             r = _post_json(f"{self.host}/api/chat", {
                 "model": self.model, "messages": messages, "stream": False, "think": False,
-                "options": {"temperature": 0, "num_predict": max_tokens, "num_ctx": self.num_ctx},
+                "options": {"temperature": self.temperature, "num_predict": max_tokens, "num_ctx": self.num_ctx},
             })
         except Exception as e:  # noqa: BLE001 - report and keep evaluating
             return Completion("", 0, 0, time.perf_counter() - t0, error=str(e))

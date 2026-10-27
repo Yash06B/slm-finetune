@@ -14,8 +14,8 @@ Examples
   # real run with Claude (paid; ~3k pairs)
   python data/generate.py --backend anthropic:claude-opus-5-5 --target 3000 --workers 8
 
-  # free smoke test with a local Ollama model
-  python data/generate.py --backend ollama:qwen3:4b-instruct --target 30 --batch 5 --out data/generated/sample
+  # free: a local Ollama teacher (runs for hours; --resume continues after a stop)
+  python data/generate.py --backend ollama:qwen2.5-coder:7b --target 3000 --workers 1
 """
 
 from __future__ import annotations
@@ -211,6 +211,7 @@ def main() -> None:
     ap.add_argument("--workers", type=int, default=4, help="parallel LLM calls (use 1 for Ollama)")
     ap.add_argument("--max-calls", type=int, default=0, help="stop after this many calls (default: 3x needed)")
     ap.add_argument("--effort", default="medium", help="Claude effort level for the teacher")
+    ap.add_argument("--temperature", type=float, default=0.8, help="sampling temperature for Ollama teachers")
     ap.add_argument("--near-dup", type=float, default=0.85, help="question Jaccard threshold for duplicates")
     ap.add_argument("--test-overlap", type=float, default=0.7, help="Jaccard threshold vs test questions")
     ap.add_argument("--test-frac", type=float, default=0.08)
@@ -221,7 +222,11 @@ def main() -> None:
     args = ap.parse_args()
     load_dotenv()
 
-    kwargs = {"effort": args.effort} if args.backend.startswith("anthropic:") else {}
+    kwargs = {}
+    if args.backend.startswith("anthropic:"):
+        kwargs["effort"] = args.effort
+    elif args.backend.startswith("ollama:"):
+        kwargs["temperature"] = args.temperature  # greedy decoding would repeat itself across calls
     backend = make_backend(args.backend, **kwargs)
     con = connect()
     gold = load_jsonl(GOLD_PATH)

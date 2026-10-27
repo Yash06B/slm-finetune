@@ -124,11 +124,19 @@ With Claude as the teacher (paid; prints the running cost). Set `ANTHROPIC_API_K
 .venv/Scripts/python data/generate.py --backend anthropic:claude-opus-5-5 --target 3000 --workers 8
 ```
 
-Free smoke test with a local model (lower quality, for checking the pipeline only):
+Free alternative: a local open-weight teacher through Ollama. A Qwen teacher (Apache-2.0) keeps the dataset and the
+fine-tuned model free of licence strings. It takes hours instead of minutes (about 63 tok/s for a 4B model on a 6 GB
+laptop GPU), so run it overnight; `--resume` picks up where a stopped run left off.
 
 ```bash
-.venv/Scripts/python data/generate.py --backend ollama:qwen3:4b-instruct --target 30 --batch 5 --workers 1 --out data/generated/sample
+ollama pull qwen2.5-coder:7b
 ```
+```bash
+.venv/Scripts/python data/generate.py --backend ollama:qwen2.5-coder:7b --target 3000 --workers 1
+```
+
+The execution filter catches broken SQL from any teacher, but not SQL that runs and answers the wrong question, so a
+weaker teacher means noisier labels. The `stats.json` acceptance rate and the gold-set score show how much that costs.
 
 Output: `data/generated/{train,val,test_synth}.jsonl` and `stats.json` (acceptance rate, reject reasons, cost).
 Commit `data/generated/` so the Colab notebook can clone it.
