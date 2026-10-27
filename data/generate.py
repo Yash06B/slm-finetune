@@ -235,7 +235,10 @@ def main() -> None:
     gold = load_jsonl(GOLD_PATH)
     pool = Pool(gold, args.near_dup, args.test_overlap)
     if args.resume:
-        for it in load_jsonl(args.out / "accepted.jsonl"):
+        # accepted.jsonl is only written at the end; after a crash, recover from the incremental raw log.
+        previous = load_jsonl(args.out / "accepted.jsonl") or [
+            r for r in load_jsonl(args.out / "raw.jsonl") if r.get("status") == "accepted"]
+        for it in previous:
             pool.try_add({**it, "_topic": it.get("topic"), "_feature": it.get("feature")}, con)
         print(f"resumed {len(pool.items)} accepted pairs")
 
