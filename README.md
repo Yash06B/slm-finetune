@@ -9,6 +9,10 @@ The fine-tuned model runs locally through Ollama, so a question never leaves you
 **62%** at **2.3 s p50**, ahead of an untuned Llama 3.2 3B (52%), a model twice its size, on the same machine. The whole
 pipeline, from data generation to serving, cost $0: the training data came from a local open-weight teacher.
 
+On Hugging Face: [LoRA adapter](https://huggingface.co/Yash06B/sql-qwen2.5-1.5b-lora) ·
+[GGUF for Ollama](https://huggingface.co/Yash06B/sql-qwen2.5-1.5b-GGUF) ·
+[dataset](https://huggingface.co/datasets/Yash06B/shop-text-to-sql)
+
 Part of a series: [claude-overlay](https://github.com/<you>/claude-overlay) (local-first desktop copilot, Claude + Ollama) ·
 RAG with an eval harness · MCP agent for issue triage · **this repo** (model-level work: data, training, eval, serving).
 
