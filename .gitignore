@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# rebuilt deterministically by `python -m sqlbench.schema`
+db/*.db
+
+# large training artifacts (published to Hugging Face instead)
+outputs/
+serve/gguf/
+*.gguf
+*.zip
+
+# local smoke tests
+data/generated/sample/
+results/smoke*/

@@ -1,0 +1,6 @@
+# Local tooling: data generation, eval harness, serving demo, HF upload.
+# Training deps (unsloth, trl, peft, bitsandbytes) are installed by the Colab notebook.
+anthropic>=2.3
+fastapi>=0.115
+uvicorn>=0.30
+huggingface_hub>=0.25
