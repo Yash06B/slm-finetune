@@ -1,0 +1,25 @@
+{
+  "label": "Qwen2.5-1.5B QLoRA, Q4_K_M GGUF (ours)",
+  "backend": "ollama:sql-qwen",
+  "test_set": "gold_test",
+  "adapter": null,
+  "effort": null,
+  "gpu_hourly_usd": null,
+  "hardware": "RTX 4050 laptop, Ollama",
+  "n": 50,
+  "execution_accuracy": 0.62,
+  "valid_sql_rate": 0.86,
+  "accuracy_by_difficulty": {
+    "easy": 0.9333,
+    "hard": 0.2,
+    "medium": 0.7
+  },
+  "api_errors": 0,
+  "latency_p50_s": 2.338,
+  "latency_p95_s": 2.768,
+  "latency_mean_s": 2.394,
+  "avg_input_tokens": 645.9,
+  "avg_output_tokens": 36.2,
+  "cost_per_1k_usd": null,
+  "finished_at": "2026-10-27T11:35:07+00:00"
+}

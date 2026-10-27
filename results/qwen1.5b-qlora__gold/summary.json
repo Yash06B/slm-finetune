@@ -1,0 +1,25 @@
+{
+  "label": "Qwen2.5-1.5B QLoRA (ours)",
+  "backend": "hf:unsloth/Qwen2.5-1.5B-Instruct+outputs/qwen2.5-1.5b-sql/lora_adapter",
+  "test_set": "gold_test",
+  "adapter": "outputs/qwen2.5-1.5b-sql/lora_adapter",
+  "effort": null,
+  "gpu_hourly_usd": 0.35,
+  "hardware": "Colab T4 (4-bit)",
+  "n": 50,
+  "execution_accuracy": 0.56,
+  "valid_sql_rate": 0.88,
+  "accuracy_by_difficulty": {
+    "easy": 0.8,
+    "hard": 0.2,
+    "medium": 0.65
+  },
+  "api_errors": 0,
+  "latency_p50_s": 4.443,
+  "latency_p95_s": 9.884,
+  "latency_mean_s": 4.968,
+  "avg_input_tokens": 645.9,
+  "avg_output_tokens": 40.6,
+  "cost_per_1k_usd": 0.483,
+  "finished_at": "2026-10-27T10:41:32+00:00"
+}
