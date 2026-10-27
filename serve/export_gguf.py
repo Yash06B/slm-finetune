@@ -42,6 +42,11 @@ def main():
         raise SystemExit(f"no .gguf produced under {args.out_dir}")
     final = args.out_dir / f"{args.name}.{args.quant.upper()}.gguf"
     shutil.move(str(candidates[0]), final)
+    # Drop Unsloth's intermediates (16-bit weights and GGUF, several GB) so only the quantized file is kept.
+    shutil.rmtree(tmp, ignore_errors=True)
+    for leftover in args.out_dir.glob("*.gguf"):
+        if leftover != final:
+            leftover.unlink()
     print(f"GGUF: {final} ({final.stat().st_size / 1e9:.2f} GB)")
 
     family = "llama" if "llama" in str(args.name).lower() else "qwen"
