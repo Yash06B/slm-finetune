@@ -122,7 +122,7 @@ def main():
     ap.add_argument("--gguf-dir", type=Path, default=ROOT / "serve/gguf")
     ap.add_argument("--model-name", default="sql-qwen2.5-1.5b")
     ap.add_argument("--dataset-name", default="shop-text-to-sql")
-    ap.add_argument("--github-url", default="https://github.com/<you>/slm-finetune")
+    ap.add_argument("--github-url", default="https://github.com/Yash06B/slm-finetune")
     ap.add_argument("--private", action="store_true")
     ap.add_argument("--yes", action="store_true", help="actually upload (default is a dry run)")
     args = ap.parse_args()

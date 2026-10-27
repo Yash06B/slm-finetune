@@ -13,8 +13,10 @@ On Hugging Face: [LoRA adapter](https://huggingface.co/Yash06B/sql-qwen2.5-1.5b-
 [GGUF for Ollama](https://huggingface.co/Yash06B/sql-qwen2.5-1.5b-GGUF) ·
 [dataset](https://huggingface.co/datasets/Yash06B/shop-text-to-sql)
 
-Part of a series: [claude-overlay](https://github.com/<you>/claude-overlay) (local-first desktop copilot, Claude + Ollama) ·
-RAG with an eval harness · MCP agent for issue triage · **this repo** (model-level work: data, training, eval, serving).
+Part of a series: claude-overlay (local-first desktop copilot, Claude + Ollama) ·
+[askdocs](https://github.com/Yash06B/askdocs) (RAG with an eval harness) ·
+[triage-agent](https://github.com/Yash06B/triage-agent) (MCP agent for issue triage) ·
+**this repo** (model-level work: data, training, eval, serving).
 
 ## Why this task
 
