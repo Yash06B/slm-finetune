@@ -16,7 +16,8 @@ On Hugging Face: [LoRA adapter](https://huggingface.co/Yash06B/sql-qwen2.5-1.5b-
 Part of a series: claude-overlay (local-first desktop copilot, Claude + Ollama) ·
 [askdocs](https://github.com/Yash06B/askdocs) (RAG with an eval harness) ·
 [triage-agent](https://github.com/Yash06B/triage-agent) (MCP agent for issue triage) ·
-**this repo** (model-level work: data, training, eval, serving).
+**this repo** (model-level work: data, training, eval, serving) ·
+[llm-gateway](https://github.com/Yash06B/llm-gateway) (serving: fallback, circuit breakers, semantic cache).
 
 ## Why this task
 
